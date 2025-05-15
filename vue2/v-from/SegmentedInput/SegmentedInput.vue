@@ -125,6 +125,7 @@ export default {
         this.$refs['char' + (idx + 1)][0].focus();
       }
     },
+
     onBackspace(idx) {
       if (idx > 0) {
         this.$set(this.chars, idx, '');
@@ -136,6 +137,7 @@ export default {
       }
       this.$emit('input', this.getValue()); 
     },
+
     getValue() {
       if (this.type === 'invoice') {
         return (
@@ -171,11 +173,16 @@ export default {
     value: {
       immediate: true,
       handler(val) {
+        const joined = this.getValue();
+
+        // onBackspace() don't target
+        if (val === joined) return;
+
         if (typeof val === 'string') {
-          const pure = val.replace('-', '').toUpperCase();
+          const pure = val.replace(/[-\s]/g, '').toUpperCase();
           this.chars = Array(this.inputLength)
-           .fill('')
-            .map((_, i) => pure[i] || '');
+          .fill('')
+          .map((_, i) => pure[i] || '');
         }
       }
     }
