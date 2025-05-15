@@ -161,6 +161,8 @@ export default {
     triggerErrorFlash() {
       this.isFlashingError = false;
       this.$nextTick(() => {
+      const firstInput = this.$refs['char0']?.[0];
+      if (firstInput) void firstInput.offsetWidth;
         this.isFlashingError = true;
       });
     }
